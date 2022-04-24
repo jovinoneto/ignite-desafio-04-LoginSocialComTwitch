@@ -1,7 +1,6 @@
 import { useTheme } from 'styled-components';
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, Modal, ActivityIndicator, View } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather'
+import { Alert, FlatList, Modal, View } from 'react-native';
 
 import { TopGamesCard } from '../../components/TopGamesCard';
 import { useAuth } from '../../hooks/useAuth';
@@ -17,7 +16,9 @@ import {
   UserFollowedStreams, 
   UserFollowedStreamsTitle, 
   TopGames, 
-  TopGamesTitle
+  TopGamesTitle,
+  LoadIndicator,
+  Icon
 } from './styles';
 import { UserFollowedStreamCard } from '../../components/UserFollowedStreamCard';
 
@@ -50,9 +51,13 @@ export function Home() {
   const theme = useTheme();
   const { signOut, user, isLoggingOut } = useAuth();
 
-  // creates a function to handle sign out
-    // try to call and wait signOut
-    // if fails, display an Alert with the title "Erro SignOut" and message "Ocorreu um erro ao tentar se deslogar do app"
+  async function handleSignOut() {
+    try {
+      await signOut();
+    } catch (error) {
+      Alert.alert("Erro SignOut", "Ocorreu um erro ao tentar se deslogar do app");
+    }
+  }
 
   async function getTopGames() {
     try {
@@ -121,11 +126,9 @@ export function Home() {
           <UserInfoText style={{ fontFamily: theme.fonts.bold }}>{user.display_name}</UserInfoText>
         </UserInfo>
 
-        {/* <SignOutButton onPress={}>
-          Verify if isLoggingOut is true
-          If it is, show an ActivityIndicator
-          Otherwise, show Feather's power icon
-        </SignOutButton> */}
+        { <SignOutButton onPress={handleSignOut}>
+          { isLoggingOut ? <LoadIndicator /> : <Icon name="power" /> }
+        </SignOutButton> }
       </Header>
 
       <UserFollowedStreams>

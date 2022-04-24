@@ -1,7 +1,11 @@
+import styled from 'styled-components/native';
+import Feather from 'react-native-vector-icons/Feather'
+
 import { MotiView } from 'moti';
 import { RectButton } from 'react-native-gesture-handler';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
-import styled from 'styled-components/native';
+
+import theme from '../../styles/theme';
 
 export const Container = styled(MotiView)`
   flex: 1;
@@ -46,6 +50,17 @@ export const SignOutButton = styled(RectButton)`
   padding: 12px;
   border-radius: 5px;
 `;
+
+export const LoadIndicator = styled.ActivityIndicator.attrs({
+  size: 25,
+  color: theme.colors.white,
+})``;
+
+export const Icon = styled(Feather).attrs({
+  size: 24,
+  margginRight: 1,
+  color: theme.colors.white,
+})``;
 
 export const UserFollowedStreams = styled.View`
   margin-top: 32px;
